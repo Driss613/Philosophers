@@ -6,7 +6,7 @@
 #    By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/15 08:08:17 by drabarza          #+#    #+#              #
-#    Updated: 2024/09/29 02:41:22 by drabarza         ###   ########.fr        #
+#    Updated: 2024/10/01 20:31:23 by drabarza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,16 @@ NC = \033[0m
 
 NAME = philo
 CC = clang
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS = -Wall -Werror -Wextra -g #-fsanitize=thread
 SRC =	philo.c \
-		ft_atoi.c
+		parsing.c \
+		ft_atoi.c \
+		init.c \
+		thread_create.c \
+		main_routine.c \
+		routine.c \
+		utils_routine.c \
+		free_philo.c
 OBJ = $(SRC:.c=.o)
 CURRENT_DATE = $(shell date +"%d/%m/%Y %H:%M:%S")
 MAKEFLAGS += -s

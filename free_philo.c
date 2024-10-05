@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   free_philo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/11 15:33:49 by drabarza          #+#    #+#             */
-/*   Updated: 2024/10/01 15:50:40 by drabarza         ###   ########.fr       */
+/*   Created: 2024/10/01 13:43:03 by drabarza          #+#    #+#             */
+/*   Updated: 2024/10/01 22:48:44 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	main(int argc, char **argv)
+void	free_philo(t_philo *philo)
 {
-	t_info	info;
+	t_philo	*tmp;
 
-	if (parsing(argc, argv, &info))
-		return (0);
-	if (init_philo(&info))
+	while (philo)
 	{
-		free_philo(info.philo);
-		return (0);
+		tmp = philo;
+		philo = tmp->next;
+		pthread_mutex_destroy(&tmp->life_mutex);
+		pthread_mutex_destroy(&tmp->fork_mutex);
+		//pthread_mutex_destroy(tmp->fork_right_mutex);
+		//free(tmp->fork_right_mutex);
+		pthread_mutex_destroy(&tmp->printf_mutex);
+		pthread_mutex_destroy(tmp->info_mutex);
+		free(tmp->info_mutex);
+		free(tmp);
 	}
-	if (init_threads(&info))
-		return (0);
-	free_philo(info.philo);
 }

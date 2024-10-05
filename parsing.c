@@ -1,29 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/11 15:33:49 by drabarza          #+#    #+#             */
-/*   Updated: 2024/10/01 15:50:40 by drabarza         ###   ########.fr       */
+/*   Created: 2024/10/01 13:36:53 by drabarza          #+#    #+#             */
+/*   Updated: 2024/10/01 13:37:18 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	main(int argc, char **argv)
+int	parsing(int argc, char **argv, t_info *info)
 {
-	t_info	info;
+	int	i;
+	int	value;
 
-	if (parsing(argc, argv, &info))
-		return (0);
-	if (init_philo(&info))
+	i = 1;
+	if (argc < 5 || argc > 6)
 	{
-		free_philo(info.philo);
-		return (0);
+		printf("Error: Wrong number of arguments. \
+			Expected 5 or 6 arguments.\n");
+		return (1);
 	}
-	if (init_threads(&info))
-		return (0);
-	free_philo(info.philo);
+	while (argv[i])
+	{
+		value = ft_atoi(argv[i]);
+		if (value <= 0)
+		{
+			printf("Error, The number must only be an integer \
+				and must be positive\n");
+			return (1);
+		}
+		init_value(i, value, info);
+		value = 0;
+		i++;
+	}
+	return (0);
 }

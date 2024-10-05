@@ -6,7 +6,7 @@
 #    By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/15 08:08:17 by drabarza          #+#    #+#              #
-#    Updated: 2024/10/01 20:31:23 by drabarza         ###   ########.fr        #
+#    Updated: 2024/10/05 09:22:15 by drabarza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ NC = \033[0m
 
 NAME = philo
 CC = clang
-FLAGS = -Wall -Werror -Wextra -g #-fsanitize=thread
+FLAGS = -Wall -Werror -Wextra -g
 SRC =	philo.c \
 		parsing.c \
 		ft_atoi.c \

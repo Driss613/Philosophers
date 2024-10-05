@@ -6,7 +6,7 @@
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:05:17 by drabarza          #+#    #+#             */
-/*   Updated: 2024/10/02 00:33:53 by drabarza         ###   ########.fr       */
+/*   Updated: 2024/10/05 08:52:44 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	take_forks(t_philo *philo, int fork)
 		//pthread_mutex_lock(&philo->printf_mutex);
 		//printf("fork_before: %d %d\n", philo->fork, philo->philo_id);
 		//pthread_mutex_unlock(&philo->printf_mutex);
-		//philo->fork = 0;
+		philo->fork = 0;
 		//pthread_mutex_lock(&philo->printf_mutex);
 		//printf("fork_after: %d %d\n", philo->fork, philo->philo_id);
 		//pthread_mutex_unlock(&philo->printf_mutex);
@@ -34,7 +34,7 @@ int	take_forks(t_philo *philo, int fork)
 		//pthread_mutex_lock(&philo->printf_mutex);
 		//printf("fork_right before: %d %d\n", *(philo->fork_right), philo->philo_id);
 		//pthread_mutex_unlock(&philo->printf_mutex);
-		//*(philo->fork_right) = 0;
+		*(philo->fork_right) = 0;
 		//pthread_mutex_lock(&philo->printf_mutex);
 		//printf("fork_right_after: %d %d\n", *(philo->fork_right), philo->philo_id);
 		//pthread_mutex_unlock(&philo->printf_mutex);

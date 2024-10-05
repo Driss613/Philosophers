@@ -6,7 +6,7 @@
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:58:35 by drabarza          #+#    #+#             */
-/*   Updated: 2024/10/02 00:35:47 by drabarza         ###   ########.fr       */
+/*   Updated: 2024/10/05 09:15:23 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ int	check_life(t_philo *philo)
 	if (!philo->life)
 	{
 		pthread_mutex_unlock(&philo->life_mutex);
-		//pthread_mutex_lock(&philo->printf_mutex);
-		//printf("%d %d died\n", chronometer(0, philo), philo->philo_id);
-		//pthread_mutex_unlock(&philo->printf_mutex);
 		return (1);
 	}
 	pthread_mutex_unlock(&philo->life_mutex);
@@ -38,20 +35,10 @@ int	check_life(t_philo *philo)
 
 int	check_fork_availability(t_philo *philo)
 {
-
-	//pthread_mutex_lock(&philo->printf_mutex);
-	//printf("BEFORE ID: %d, fork %d\n", philo->philo_id, philo->fork);
-	//printf("BEFORE ID: %d, fork_right %d\n", philo->philo_id, *(philo->fork_right));
-	//printf("BEFORE ID: %d, fork %d\n", philo->next->philo_id, philo->next->fork);
-	//printf("BEFORE ID: %d, fork_right %d\n", philo->next->philo_id, *(philo->next->fork_right));
-	//pthread_mutex_unlock(&philo->printf_mutex);
 	while (philo->number_of_fork < 2)
 	{
 		if (check_life(philo))
 			return (1);
-		//pthread_mutex_lock(&philo->printf_mutex);
-		//printf("fork_before: %d %d\n", philo->fork, philo->philo_id);
-		//pthread_mutex_unlock(&philo->printf_mutex);
 		pthread_mutex_lock(&philo->fork_mutex);
 		if (philo->fork)
 		{
@@ -59,34 +46,17 @@ int	check_fork_availability(t_philo *philo)
 			philo->number_of_fork++;
 		}
 		pthread_mutex_unlock(&philo->fork_mutex);
-		//pthread_mutex_lock(&philo->printf_mutex);
-		//printf("fork_after: %d %d\n", philo->fork, philo->philo_id);
-		//pthread_mutex_unlock(&philo->printf_mutex);
 		if (check_life(philo))
 			return (1);
-		//pthread_mutex_lock(philo->fork_right_mutex);
-		//pthread_mutex_lock(&philo->printf_mutex);
-		//printf("fork_right before: %d %d\n", *(philo->fork_right), philo->philo_id);
-		//pthread_mutex_unlock(&philo->printf_mutex);
 		pthread_mutex_lock(&philo->fork_mutex);
-		if (philo->fork_right)
+		if (*(philo->fork_right))
 		{
 			take_forks(philo, 1);
 			philo->number_of_fork++;
 		}
-		//pthread_mutex_unlock(philo->fork_right_mutex);
 		pthread_mutex_unlock(&philo->fork_mutex);
-		//pthread_mutex_lock(&philo->printf_mutex);
-		//printf("fork_right_after: %d %d\n", *(philo->fork_right), philo->philo_id);
-		//pthread_mutex_unlock(&philo->printf_mutex);
 		//usleep(100);
 	}
-	//pthread_mutex_lock(&philo->printf_mutex);
-	//printf("ID: %d, fork %d\n", philo->philo_id, philo->fork);
-	//printf("ID: %d, fork_right %d\n", philo->philo_id, *(philo->fork_right));
-	//printf("ID: %d, fork %d\n", philo->next->philo_id, philo->next->fork);
-	//printf("ID: %d, fork_right %d\n", philo->next->philo_id, *(philo->next->fork_right));
-	pthread_mutex_unlock(&philo->printf_mutex);
 	philo->number_of_fork = 0;
 	return (0);
 }
@@ -128,14 +98,10 @@ int	eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->printf_mutex);
 	philo->count_eat++;
 	ft_time_to_eat(philo);
-	/*pthread_mutex_lock(&philo->fork_mutex);
+	pthread_mutex_lock(&philo->fork_mutex);
 	philo->fork = 1;
+	*(philo->fork_right) = 1;
 	pthread_mutex_unlock(&philo->fork_mutex);
-	pthread_mutex_lock(&philo->fork_mutex);*/
-	//pthread_mutex_lock(philo->fork_right_mutex);
-	//*(philo->fork_right) = 1;
-	//pthread_mutex_unlock(philo->fork_right_mutex);
-//	pthread_mutex_unlock(&philo->fork_mutex);
 	return (0);
 }
 

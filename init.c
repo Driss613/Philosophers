@@ -6,7 +6,7 @@
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:31:41 by drabarza          #+#    #+#             */
-/*   Updated: 2024/10/02 01:16:58 by drabarza         ###   ########.fr       */
+/*   Updated: 2024/10/05 09:17:45 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,30 +45,15 @@ static t_philo	*ft_lstnew(int index, t_info *info)
 	lst->number_of_fork = 0;
 	lst->count_eat = 0;
 	lst->satiated = 0;
-	lst->fork_right = malloc(sizeof(int));
-	if (!lst->fork_right)
-	{
-		free(lst);
-		return (NULL);
-	}
-	//lst->fork_right_mutex = malloc(sizeof(pthread_mutex_t));
-	/*if (!lst->fork_right_mutex)
-	{
-		free(lst);
-		free(lst->fork_right);
-		return (NULL);
-	}*/
+	lst->fork_right = NULL;
 	lst->info_mutex = malloc(sizeof(pthread_mutex_t));
 	if (!lst->info_mutex)
 	{
 		free(lst);
-		free(lst->fork_right);
-		//free(lst->fork_right_mutex);
 		return (NULL);
 	}
 	pthread_mutex_init(&lst->life_mutex, NULL);
 	pthread_mutex_init(&lst->fork_mutex, NULL);
-	//pthread_mutex_init(lst->fork_right_mutex, NULL);
 	pthread_mutex_init(&lst->satiated_mutex, NULL);
 	pthread_mutex_init(&lst->printf_mutex, NULL);
 	pthread_mutex_init(lst->info_mutex, NULL);

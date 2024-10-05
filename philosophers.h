@@ -6,7 +6,7 @@
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 08:03:53 by drabarza          #+#    #+#             */
-/*   Updated: 2024/10/02 01:17:00 by drabarza         ###   ########.fr       */
+/*   Updated: 2024/10/05 09:29:13 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct s_philo
 	pthread_mutex_t	life_mutex;
 	pthread_mutex_t	satiated_mutex;
 	pthread_mutex_t	fork_mutex;
-	//pthread_mutex_t	*fork_right_mutex;
 	pthread_mutex_t	printf_mutex;
 	pthread_t		thread_id;
 	pthread_mutex_t	*info_mutex;

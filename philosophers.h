@@ -6,7 +6,7 @@
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 08:03:53 by drabarza          #+#    #+#             */
-/*   Updated: 2024/10/09 04:51:57 by drabarza         ###   ########.fr       */
+/*   Updated: 2024/10/09 05:49:56 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ int		think(t_philo *philo);
 int		eat(t_philo *philo);
 int		ft_sleep(t_philo *philo);
 int		try_take_a_fork(t_philo *philo, int i, int *nb_of_fork);
-int		take_forks(t_philo *philo, int fork);
 int		ft_usleep(int milliseconds, t_philo *philo);
-void	ft_time_to_eat(t_philo *philo);
+int		ft_time_to_eat(t_philo *philo);
 void	free_all(t_info *info);
 #endif

@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_philo.c                                       :+:      :+:    :+:   */
+/*   init_mutex.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/01 13:43:03 by drabarza          #+#    #+#             */
-/*   Updated: 2024/10/05 09:18:03 by drabarza         ###   ########.fr       */
+/*   Created: 2024/10/09 03:10:02 by drabarza          #+#    #+#             */
+/*   Updated: 2024/10/09 03:38:10 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	free_philo(t_philo *philo)
+int	init_mutex_info(t_info *info)
 {
-	t_philo	*tmp;
-
-	while (philo)
+	if (pthread_mutex_init(&info->printf_mutex, NULL))
 	{
-		tmp = philo;
-		philo = tmp->next;
-		pthread_mutex_destroy(&tmp->life_mutex);
-		pthread_mutex_destroy(&tmp->fork_mutex);
-		pthread_mutex_destroy(&tmp->printf_mutex);
-		pthread_mutex_destroy(tmp->info_mutex);
-		free(tmp->info_mutex);
-		free(tmp);
+		printf("Error initializing mutex\n");
+		return (1);
 	}
+	if (pthread_mutex_init(&info->satiated_mutex, NULL))
+	{
+		printf("Error initializing mutex\n");
+		return (1);
+	}
+	if (pthread_mutex_init(&info->life_mutex, NULL))
+	{
+		printf("Error initializing mutex\n");
+		return (1);
+	}
+	return (0);
 }
+

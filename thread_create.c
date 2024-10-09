@@ -6,7 +6,7 @@
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:50:27 by drabarza          #+#    #+#             */
-/*   Updated: 2024/10/01 22:03:36 by drabarza         ###   ########.fr       */
+/*   Updated: 2024/10/09 00:22:23 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 		-> si oui: tu stop les philos
  */
 
-void	stop_all_philo(t_philo *philo, int dead)
+static void	stop_all_philo(t_philo *philo, int dead, int philo_id)
 {
 	t_philo	*tmp;
 	int		time;
@@ -37,21 +37,21 @@ void	stop_all_philo(t_philo *philo, int dead)
 	tmp = philo;
 	while (philo)
 	{
-		pthread_mutex_lock(&philo->life_mutex);
+		pthread_mutex_lock(&philo->info->life_mutex);
 		philo->life = 0;
-		pthread_mutex_unlock(&philo->life_mutex);
+		pthread_mutex_unlock(&philo->info->life_mutex);
 		philo = philo->next;
 	}
 	philo = tmp;
-	if (dead)
+	if (dead && philo_id != -1)
 	{
-		pthread_mutex_lock(&philo->printf_mutex);
-		printf("%d %d died\n", time, philo->philo_id);
-		pthread_mutex_unlock(&philo->printf_mutex);
+		pthread_mutex_lock(&philo->info->printf_mutex);
+		printf("%d %d died\n", time, philo_id);
+		pthread_mutex_unlock(&philo->info->printf_mutex);
 	}
 }
 
-void	life_checker(t_philo *philo)
+static void	life_checker(t_philo *philo)
 {
 	t_philo	*tmp;
 	int		i;
@@ -60,30 +60,28 @@ void	life_checker(t_philo *philo)
 	{
 		tmp = philo;
 		i = 0;
-		while (philo)
+		while (tmp)
 		{
-			pthread_mutex_lock(&philo->life_mutex);
-			if (!philo->life)
+			pthread_mutex_lock(&tmp->info->life_mutex);
+			if (!tmp->life)
 			{
-				pthread_mutex_unlock(&philo->life_mutex);
-				stop_all_philo(philo, 1);
+				pthread_mutex_unlock(&tmp->info->life_mutex);
+				stop_all_philo(philo, 1, tmp->philo_id);
 				return ;
 			}
-			pthread_mutex_unlock(&philo->life_mutex);
-			pthread_mutex_lock(&philo->satiated_mutex);
-			if (philo->satiated == 1)
+			pthread_mutex_unlock(&tmp->info->life_mutex);
+			pthread_mutex_lock(&tmp->info->satiated_mutex);
+			if (tmp->satiated == 1)
 				i++;
-			pthread_mutex_unlock(&philo->satiated_mutex);
-			pthread_mutex_lock(philo->info_mutex);
-			if (i == philo->info->n_philos)
+			pthread_mutex_unlock(&tmp->info->satiated_mutex);
+			if (i == tmp->info->n_philos)
 			{
-				pthread_mutex_unlock(philo->info_mutex);
-				stop_all_philo(philo, 0);
+				stop_all_philo(philo, 0, -1);
 				return ;
 			}
-			pthread_mutex_unlock(philo->info_mutex);
-			tmp = philo->next;
+			tmp = tmp->next;
 		}
+		usleep(100);
 	}
 }
 
@@ -102,7 +100,6 @@ int	init_threads(t_info *info)
 		}
 		current = current->next;
 	}
-	// func checker
 	life_checker(info->philo);
 	current = info->philo;
 	while (current)
@@ -110,6 +107,7 @@ int	init_threads(t_info *info)
 		if (pthread_join(current->thread_id, NULL))
 		{
 			printf("Error: Failed to join thread\n");
+			printf("OEOEOE\n");
 			return (1);
 		}
 		current = current->next;

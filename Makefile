@@ -6,7 +6,7 @@
 #    By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/15 08:08:17 by drabarza          #+#    #+#              #
-#    Updated: 2024/10/05 09:22:15 by drabarza         ###   ########.fr        #
+#    Updated: 2024/10/09 03:49:58 by drabarza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,13 +21,14 @@ CC = clang
 FLAGS = -Wall -Werror -Wextra -g
 SRC =	philo.c \
 		parsing.c \
+		init_mutex.c \
 		ft_atoi.c \
 		init.c \
 		thread_create.c \
 		main_routine.c \
 		routine.c \
 		utils_routine.c \
-		free_philo.c
+		free_all.c
 OBJ = $(SRC:.c=.o)
 CURRENT_DATE = $(shell date +"%d/%m/%Y %H:%M:%S")
 MAKEFLAGS += -s

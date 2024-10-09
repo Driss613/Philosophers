@@ -6,7 +6,7 @@
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:31:41 by drabarza          #+#    #+#             */
-/*   Updated: 2024/10/05 09:17:45 by drabarza         ###   ########.fr       */
+/*   Updated: 2024/10/09 04:07:27 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,34 +29,49 @@ void	init_value(int i, int value, t_info *info)
 		info->number_of_times_each_philosopher_must_eat = value;
 }
 
+static t_fork	*ft_fork_init(void)
+{
+	t_fork	*lst;
+
+	lst = malloc(sizeof(t_fork));
+	if (!lst)
+	{
+		printf("Error Allocation\n");
+		return (NULL);
+	}
+	lst->available = 1;
+	if (pthread_mutex_init(&lst->mutex, NULL))
+	{
+		free(lst);
+		printf("Error initializing mutex\n");
+		return (NULL);
+	}
+	return (lst);
+}
+
 static t_philo	*ft_lstnew(int index, t_info *info)
 {
 	t_philo	*lst;
 
 	lst = malloc(sizeof(t_philo));
 	if (!lst)
+	{
+		printf("Error Allocation\n");
 		return (NULL);
+	}
 	lst->info = info;
 	lst->philo_id = index + 1;
 	lst->life = 1;
-	lst->fork = 1;
 	lst->last_eat = 0;
-	lst->sleep = 0;
-	lst->number_of_fork = 0;
+	
 	lst->count_eat = 0;
 	lst->satiated = 0;
-	lst->fork_right = NULL;
-	lst->info_mutex = malloc(sizeof(pthread_mutex_t));
-	if (!lst->info_mutex)
+	lst->fork = ft_fork_init();
+	if (!lst->fork)
 	{
 		free(lst);
 		return (NULL);
 	}
-	pthread_mutex_init(&lst->life_mutex, NULL);
-	pthread_mutex_init(&lst->fork_mutex, NULL);
-	pthread_mutex_init(&lst->satiated_mutex, NULL);
-	pthread_mutex_init(&lst->printf_mutex, NULL);
-	pthread_mutex_init(lst->info_mutex, NULL);
 	lst->next = NULL;
 	return (lst);
 }
@@ -75,11 +90,11 @@ static void	init_forks(t_info *info)
 	}
 	while (info->n_philos > i)
 	{
-		philo->fork_right = &philo->next->fork;
+		philo->fork_right = philo->next->fork;
 		i++;
 		philo = philo->next;
 	}
-	philo->fork_right = &info->philo->fork;
+	philo->fork_right = info->philo->fork;
 }
 
 static void	ft_lstadd_back(t_philo **lst, t_philo *newlst)
@@ -112,10 +127,7 @@ int	init_philo(t_info *info)
 	{
 		tmp = ft_lstnew(i, info);
 		if (!tmp)
-		{
-			printf("Error Allocation\n");
 			return (1);
-		}
 		ft_lstadd_back(&info->philo, tmp);
 		i++;
 	}

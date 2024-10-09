@@ -6,7 +6,7 @@
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 18:48:37 by drabarza          #+#    #+#             */
-/*   Updated: 2024/09/28 22:24:29 by drabarza         ###   ########.fr       */
+/*   Updated: 2024/10/09 03:17:45 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	arguments_is_valid(const char *nptr, long nbr, int sign, int i)
 	return (0);
 }
 
-static void	calculint(const char *nptr, int i)
+static int	calculint(const char *nptr, int i)
 {
 	int	countnumber;
 
@@ -36,9 +36,17 @@ static void	calculint(const char *nptr, int i)
 		countnumber++;
 	}
 	if (countnumber > 10)
+		return (1);
+	return (0);
+}
+
+static void	check_sign(const char *nptr, int *i, int *sign)
+{
+	if (nptr[*i] == '-' || nptr[*i] == '+')
 	{
-		printf("Error: The integer provided exceeds the maximum allowable value for an integer.\n");
-		exit(0);
+		if (nptr[*i] == '-')
+			*sign = -1;
+		(*i)++;
 	}
 }
 
@@ -55,13 +63,9 @@ int	ft_atoi(const char *nptr)
 		return (-1);
 	while ((nptr[i] >= '\t' && nptr[i] <= '\r') || nptr[i] == ' ')
 		i++;
-	if (nptr[i] == '-' || nptr[i] == '+')
-	{
-		if (nptr[i] == '-')
-			sign = -1;
-		i++;
-	}
-	calculint(nptr, i);
+	check_sign(nptr, &i, &sign);
+	if (calculint(nptr, i))
+		return (-1);
 	while (nptr[i] && (nptr[i] >= '0' && nptr[i] <= '9'))
 	{
 		nbr = 10 * nbr + (nptr[i] - 48);

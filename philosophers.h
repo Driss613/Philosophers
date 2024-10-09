@@ -6,7 +6,7 @@
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 08:03:53 by drabarza          #+#    #+#             */
-/*   Updated: 2024/10/09 03:49:33 by drabarza         ###   ########.fr       */
+/*   Updated: 2024/10/09 04:51:57 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 typedef struct s_fork
 {
 	pthread_mutex_t	mutex;
-	int	available;
+	int				available;
 }	t_fork;
 
 typedef struct s_philo
@@ -56,6 +56,7 @@ int		parsing(int argc, char **argv, t_info *info);
 int		ft_atoi(const char *nptr);
 int		init_mutex_info(t_info *info);
 int		init_philo(t_info *info);
+t_fork	*ft_fork_init(void);
 void	init_value(int i, int value, t_info *info);
 int		init_threads(t_info *info);
 int		chronometer(int i, t_philo *philo);
@@ -65,6 +66,7 @@ int		check_fork_availability(t_philo *philo);
 int		think(t_philo *philo);
 int		eat(t_philo *philo);
 int		ft_sleep(t_philo *philo);
+int		try_take_a_fork(t_philo *philo, int i, int *nb_of_fork);
 int		take_forks(t_philo *philo, int fork);
 int		ft_usleep(int milliseconds, t_philo *philo);
 void	ft_time_to_eat(t_philo *philo);

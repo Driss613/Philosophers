@@ -6,7 +6,7 @@
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:58:35 by drabarza          #+#    #+#             */
-/*   Updated: 2024/10/09 02:46:41 by drabarza         ###   ########.fr       */
+/*   Updated: 2024/10/09 04:51:37 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 int	check_life(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->info->life_mutex);
-	if (!philo->life)
-	{
-		pthread_mutex_unlock(&philo->info->life_mutex);
-		return (1);
-	}
 	if (chronometer(0, philo) - philo->last_eat >= philo->info->time_to_die)
 	{
 		philo->life = 0;
@@ -42,24 +37,20 @@ int	check_fork_availability(t_philo *philo)
 	{
 		if (check_life(philo))
 			return (1);
-		pthread_mutex_lock(&philo->fork->mutex);
-		if (philo->fork->available)
+		if (try_take_a_fork(philo, 0, &nb_of_fork))
 		{
-			take_forks(philo, 0);
-			nb_of_fork++;
+			pthread_mutex_unlock(&philo->fork->mutex);
+			return (1);
 		}
-		pthread_mutex_unlock(&philo->fork->mutex);
 		if (check_life(philo))
 			return (1);
 		if (philo->fork_right)
 		{
-			pthread_mutex_lock(&philo->fork_right->mutex);
-			if (philo->fork_right->available)
+			if (try_take_a_fork(philo, 1, &nb_of_fork))
 			{
-				take_forks(philo, 1);
-				nb_of_fork++;
+				pthread_mutex_unlock(&philo->fork->mutex);
+				return (1);
 			}
-			pthread_mutex_unlock(&philo->fork_right->mutex);
 		}
 		usleep(100);
 	}

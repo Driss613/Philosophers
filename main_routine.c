@@ -6,7 +6,7 @@
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:56:59 by drabarza          #+#    #+#             */
-/*   Updated: 2024/10/09 03:24:42 by drabarza         ###   ########.fr       */
+/*   Updated: 2024/10/09 04:30:26 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	*routine(void *arg)
 		return (NULL);
 	if (philo->philo_id % 2 == 0)
 		ft_usleep(50, philo);
-		//ft_usleep((philo->info->time_to_die - philo->info->time_to_eat - philo->info->time_to_sleep) / 3, philo);
 	while (1)
 	{
 		if (check_fork_availability(philo))

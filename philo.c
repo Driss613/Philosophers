@@ -6,7 +6,7 @@
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:33:49 by drabarza          #+#    #+#             */
-/*   Updated: 2024/10/09 03:54:22 by drabarza         ###   ########.fr       */
+/*   Updated: 2024/10/09 04:23:10 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 	if (init_threads(&info))
+	{
+		free_all(&info);
 		return (0);
+	}
 	free_all(&info);
 	return (1);
 }

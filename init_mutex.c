@@ -6,7 +6,7 @@
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 03:10:02 by drabarza          #+#    #+#             */
-/*   Updated: 2024/10/09 03:38:10 by drabarza         ###   ########.fr       */
+/*   Updated: 2024/10/09 04:12:52 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,3 +32,22 @@ int	init_mutex_info(t_info *info)
 	return (0);
 }
 
+t_fork	*ft_fork_init(void)
+{
+	t_fork	*lst;
+
+	lst = malloc(sizeof(t_fork));
+	if (!lst)
+	{
+		printf("Error Allocation\n");
+		return (NULL);
+	}
+	lst->available = 1;
+	if (pthread_mutex_init(&lst->mutex, NULL))
+	{
+		free(lst);
+		printf("Error initializing mutex\n");
+		return (NULL);
+	}
+	return (lst);
+}

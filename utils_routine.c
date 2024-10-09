@@ -6,11 +6,38 @@
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:05:17 by drabarza          #+#    #+#             */
-/*   Updated: 2024/10/09 01:45:25 by drabarza         ###   ########.fr       */
+/*   Updated: 2024/10/09 04:54:23 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+int	try_take_a_fork(t_philo *philo, int i, int *nb_of_fork)
+{
+	if (!i)
+	{
+		pthread_mutex_lock(&philo->fork->mutex);
+		if (philo->fork->available)
+		{
+			if (take_forks(philo, 0))
+				return (1);
+			(*nb_of_fork)++;
+		}
+		pthread_mutex_unlock(&philo->fork->mutex);
+	}
+	else
+	{
+		pthread_mutex_lock(&philo->fork_right->mutex);
+		if (philo->fork_right->available)
+		{
+			if (take_forks(philo, 1))
+				return (1);
+			(*nb_of_fork)++;
+		}
+		pthread_mutex_unlock(&philo->fork_right->mutex);
+	}
+	return (0);
+}
 
 int	take_forks(t_philo *philo, int fork)
 {

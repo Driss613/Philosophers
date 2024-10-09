@@ -6,7 +6,7 @@
 /*   By: drabarza <drabarza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:31:41 by drabarza          #+#    #+#             */
-/*   Updated: 2024/10/09 04:07:27 by drabarza         ###   ########.fr       */
+/*   Updated: 2024/10/09 04:23:46 by drabarza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,6 @@ void	init_value(int i, int value, t_info *info)
 		info->number_of_times_each_philosopher_must_eat = value;
 }
 
-static t_fork	*ft_fork_init(void)
-{
-	t_fork	*lst;
-
-	lst = malloc(sizeof(t_fork));
-	if (!lst)
-	{
-		printf("Error Allocation\n");
-		return (NULL);
-	}
-	lst->available = 1;
-	if (pthread_mutex_init(&lst->mutex, NULL))
-	{
-		free(lst);
-		printf("Error initializing mutex\n");
-		return (NULL);
-	}
-	return (lst);
-}
-
 static t_philo	*ft_lstnew(int index, t_info *info)
 {
 	t_philo	*lst;
@@ -63,7 +43,6 @@ static t_philo	*ft_lstnew(int index, t_info *info)
 	lst->philo_id = index + 1;
 	lst->life = 1;
 	lst->last_eat = 0;
-	
 	lst->count_eat = 0;
 	lst->satiated = 0;
 	lst->fork = ft_fork_init();
